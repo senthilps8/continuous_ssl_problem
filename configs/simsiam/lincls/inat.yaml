@@ -1,0 +1,22 @@
+inat:
+  data:
+    type: 'standard'
+    train_filelist: '/grogu/user/spurushw/datasets/inaturalist/trainlist.txt'
+    val_filelist: '/grogu/user/spurushw/datasets/inaturalist/vallist.txt'
+    insize: ${data.insize}
+
+  optim:
+    method: 'lars'
+    epochs: 20
+    start_epoch: 0
+    batch_size: 1024
+    normalize: True
+    lr: 12.0
+    momentum: 0.9
+    weight_decay: 0.0
+    schedule: [60, 80]
+    cos: True
+  eval_params:
+    resume_epoch: -1
+    suffix: '.inat'
+    num_classes: 8142

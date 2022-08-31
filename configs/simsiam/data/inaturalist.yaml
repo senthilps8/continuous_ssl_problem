@@ -1,0 +1,5 @@
+type: 'standard'
+train_filelist: '/grogu/user/spurushw/datasets/inaturalist/trainlist.txt'
+val_filelist: '/grogu/user/spurushw/datasets/inaturalist/vallist.txt'
+insize: 224
+n_seq_samples: -1

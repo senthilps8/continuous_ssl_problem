@@ -1,0 +1,11 @@
+defaults:
+  - backbone: resnet50
+
+main_worker: 'worker_simsiam_bstream'
+load_path: ''
+sync_bn: True
+num_updates: 4
+buff_siz: 0
+buffer_type: 'none' # none, simple, minred
+limit_num_seen_coeff: -1
+pretrained:

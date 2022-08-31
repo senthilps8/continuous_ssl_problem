@@ -1,0 +1,6 @@
+type: 'standard'
+train_filelist: '/grogu/user/pmorgado/datasets/krishnacam/train_filelist.txt'
+val_filelist: ''
+insize: 224
+n_seq_samples: -1
+shuffle: False

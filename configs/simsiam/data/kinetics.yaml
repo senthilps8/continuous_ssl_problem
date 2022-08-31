@@ -1,0 +1,9 @@
+type: 'sequential'
+num_files: 1000000
+fn_dtype: "S120"
+train_filelist: '/grogu/user/spurushw/datasets/kinetics_frames/videos_list/vidlist_numframes.txt'
+val_filelist: ''
+insize: 224
+name: 'kinetics'
+n_seq_samples: 64
+seq_sampling: 'consecutive'

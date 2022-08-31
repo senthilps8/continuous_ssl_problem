@@ -1,0 +1,7 @@
+type: 'class_sequential'
+train_filelist: '/grogu/user/spurushw/datasets/full_imagenet/filelist'
+val_filelist: ''
+insize: 224
+n_cls_samples: 64
+n_seq_samples: -1
+shuffle: False

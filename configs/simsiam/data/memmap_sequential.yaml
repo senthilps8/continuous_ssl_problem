@@ -1,0 +1,10 @@
+type: 'memmap'
+num_files: 12757384
+fn_dtype: "S120"
+base_dir: '/grogu/user/pmorgado/datasets/full_imagenet/'
+train_filelist: '/continual_splits/continual_filelist.memmap'
+val_filelist: ''
+insize: 224
+shuffle: False
+name: 'memmap_sequential'
+n_seq_samples: -1

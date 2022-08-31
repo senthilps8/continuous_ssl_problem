@@ -1,0 +1,4 @@
+arch: 'resnet50'
+simsiam_dim: 2048
+pred_dim: 512
+pretrained: False

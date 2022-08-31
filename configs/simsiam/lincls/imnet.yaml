@@ -1,0 +1,21 @@
+imnet:
+  data:
+    type: 'standard'
+    train_filelist: '/grogu/user/spurushw/datasets/imagenet/trainlist.txt'
+    val_filelist: '/grogu/user/spurushw/datasets/imagenet/vallist.txt'
+    insize: ${data.insize}
+  optim:
+    method: 'lars'
+    epochs: 10
+    start_epoch: 0
+    batch_size: 1024
+    normalize: True
+    lr: 3.0
+    momentum: 0.9
+    weight_decay: 0.0
+    schedule: [60, 80]
+    cos: True
+  eval_params:
+    resume_epoch: -1
+    suffix: '.imnet'
+    num_classes:  1000

@@ -1,0 +1,4 @@
+arch: 'resnet18'
+simsiam_dim: 512
+pred_dim: 128
+pretrained: False

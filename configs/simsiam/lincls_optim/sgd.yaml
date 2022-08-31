@@ -1,0 +1,13 @@
+# @package _group_
+method: 'sgd'
+epochs: 100
+start_epoch: 0
+batch_size: 256
+lr: 30.0
+momentum: 0.9
+weight_decay: 0.0
+schedule: [60, 80]
+cos: False
+reg_unif_constant: 0
+reg_sparse_weight: 0.0
+reg_unif_weight: 0.0
