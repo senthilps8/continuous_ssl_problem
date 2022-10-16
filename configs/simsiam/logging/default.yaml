@@ -1,0 +1,17 @@
+print_freq: 10
+save_freq: 1
+save_freq_mints: 20
+name: 'exp' #Experiment name
+log_tb: True #Log to TB?
+ckpt_dir: ${environment.data_dir}/checkpoints/${logging.name}/
+tb_dir: ${environment.data_dir}/tblogs/${logging.name}/
+submitit_dir: ${environment.data_dir}/submitit_train_logs/${logging.name}/
+result_dir: ${environment.data_dir}/results/${logging.name}/
+eval_freq: 5
+suffix: ''
+visualize: False
+retain_num_ckpt: 0
+use_wandb: False
+wandb_dir: ${environment.data_dir}/wandb/${logging.name}/
+wandb_username: senthilps8
+num_save_crops: 5
