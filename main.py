@@ -55,7 +55,7 @@ class Worker:
         import importlib
         main_worker = importlib.import_module(
             origargs.model.main_worker).main_worker
-        from main_lincls_worker import main_worker as main_lincls_worker
+        from worker_lincls import main_worker as main_lincls_worker
         import numpy as np
         import torch.multiprocessing as mp
         import torch.utils.data.distributed

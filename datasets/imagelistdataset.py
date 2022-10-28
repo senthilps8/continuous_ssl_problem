@@ -29,12 +29,11 @@ def decode_filename(fn):
     return fn
 
 
-
-
 class KineticsSequentialDataset(data.Dataset):
     """Dataset that reads videos"""
     def __init__(self,
                  dirlist_fname,
+                 base_dir='',
                  transforms=None,
                  fname_fmt='{:03d}.jpeg',
                  n_seq_samples=-1, sampling_method='consecutive'):
@@ -49,7 +48,7 @@ class KineticsSequentialDataset(data.Dataset):
         with open(dirlist_fname, 'r') as f:
             filedata = f.read().splitlines()
             self.dirlist = torch.stack(
-                [encode_filename(d.split(' ')[0]) for d in filedata])
+                [encode_filename(base_dir+'/'+d.split(' ')[0]) for d in filedata])
             self.nframes_list = torch.tensor(
                 [int(d.split(' ')[1]) for d in filedata])
             print([decode_filename(fn) for fn in self.dirlist[:10]])
@@ -280,7 +279,7 @@ class ClassSequentialDataset(data.Dataset):
 
 class ImageListDataset(data.Dataset):
     """Dataset that reads videos"""
-    def __init__(self, list_fname, transforms=None):
+    def __init__(self, list_fname, base_dir='', transforms=None):
         """TODO: to be defined.
 
         :pair_filelist: TODO
@@ -292,16 +291,14 @@ class ImageListDataset(data.Dataset):
         with open(list_fname, 'r') as f:
             filedata = f.read().splitlines()
             self.filelist = torch.stack(
-                [encode_filename(d.split(' ')[0]) for d in filedata])
+                [encode_filename(base_dir+"/"+d.split(' ')[0]) for d in filedata])
             print([decode_filename(fn) for fn in self.filelist[:10]])
 
         if not isinstance(transforms, list):
             transforms = [transforms]
         self.transforms = transforms
-        self.std = torch.Tensor(self.transforms[0].transforms[-1].std).view(
-            3, 1, 1)
-        self.mean = torch.Tensor(self.transforms[0].transforms[-1].mean).view(
-            3, 1, 1)
+        self.std = torch.Tensor(self.transforms[0].transforms[-1].std).view(3, 1, 1)
+        self.mean = torch.Tensor(self.transforms[0].transforms[-1].mean).view(3, 1, 1)
 
     def __getitem__(self, index):
         """TODO: Docstring for __getitem__.
@@ -364,6 +361,7 @@ class MemMapImageListDataset(data.Dataset):
                  num_files,
                  base_dir,
                  fn_dtype="S120",
+                 subsample=1,
                  transforms=None):
         """TODO: to be defined.
 
@@ -377,8 +375,8 @@ class MemMapImageListDataset(data.Dataset):
         self.fn_dtype = fn_dtype
         self.base_dir = base_dir
         self.filelist_mmap = None
-        assert (os.path.exists(f"{self.base_dir}/{self.list_fname}")
-                ), '{} does not exist'.format(list_fname)
+        self.subsample = subsample
+        assert os.path.exists(list_fname), '{} does not exist'.format(list_fname)
 
         if not isinstance(transforms, list):
             transforms = [transforms]
@@ -395,9 +393,10 @@ class MemMapImageListDataset(data.Dataset):
         :returns: TODO
 
         """
+        index = index * self.subsample
         if self.filelist_mmap is None:
             self.filelist_mmap = np.memmap(
-                f"{self.base_dir}/{self.list_fname}",
+                self.list_fname,
                 dtype=self.fn_dtype,
                 shape=(self.num_files, ),
                 mode='r')
@@ -405,9 +404,8 @@ class MemMapImageListDataset(data.Dataset):
         MAX_TRIES = 50
         for i in range(MAX_TRIES):
             try:
-                fname = self.filelist_mmap[index].decode('utf-8').strip()
-                fname = fname.replace('/grogu/user/pmorgado/datasets/flickrDB',
-                                      self.base_dir)
+                fname = self.filelist_mmap[index].decode('utf-8').strip().replace('.jpg', '-256p.jpg')
+                fname = f"{self.base_dir}/{fname}"
                 im = datasets.folder.pil_loader(fname)
                 break
             except Exception:
@@ -448,9 +446,7 @@ class MemMapImageListDataset(data.Dataset):
         :returns: TODO
 
         """
-        return self.num_files
-
-
+        return self.num_files // self.subsample
 
 
 class ImageListStandardDataset(data.Dataset):

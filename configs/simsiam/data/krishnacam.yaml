@@ -1,5 +1,6 @@
 type: 'standard'
-train_filelist: '/grogu/user/pmorgado/datasets/krishnacam/train_filelist.txt'
+base_dir: '/grogu/user/pmorgado/datasets/krishnacam/frames'
+train_filelist: 'datasets/lists/krishnacam_filelist.txt'
 val_filelist: ''
 insize: 224
 n_seq_samples: -1

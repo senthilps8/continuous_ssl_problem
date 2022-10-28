@@ -8,10 +8,9 @@ import logging
 import copy
 from pathlib import Path
 import warnings
-from main_lincls_worker import main_worker
+from worker_lincls import main_worker
 import random
 import os
-import numpy as np
 
 os.environ['MKL_THREADING_LAYER'] = 'GNU'
 os.environ['MKL_SERVICE_FORCE_INTEL'] = '1'

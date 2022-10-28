@@ -1,7 +1,7 @@
 defaults:
   - backbone: resnet50
 
-main_worker: 'worker_simsiam_bstream'
+main_worker: 'worker_buffered_simsiam'
 load_path: ''
 sync_bn: True
 num_updates: 4

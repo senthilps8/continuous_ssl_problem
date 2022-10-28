@@ -1,10 +1,11 @@
 type: 'memmap'
+name: 'memmap_sequential'
 num_files: 12757384
 fn_dtype: "S120"
-base_dir: '/grogu/user/pmorgado/datasets/full_imagenet/'
-train_filelist: '/continual_splits/continual_filelist.memmap'
+base_dir: '/grogu/user/spurushw/datasets/full_imagenet'
+train_filelist: 'datasets/lists/fullimagenet_0123.memmap'
 val_filelist: ''
+subsample: 4
 insize: 224
 shuffle: False
-name: 'memmap_sequential'
 n_seq_samples: -1

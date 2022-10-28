@@ -2,7 +2,7 @@ type: 'memmap'
 num_files: 20000000
 fn_dtype: "S120"
 base_dir: '/grogu/user/pmorgado/datasets/flickrDB/'
-train_filelist: '/filelist_20M-v2.memmap'
+train_filelist: 'datasets/flickrCC/lists/flickr-20M.memmap'
 val_filelist: ''
 insize: 224
 name: 'flickr20m'

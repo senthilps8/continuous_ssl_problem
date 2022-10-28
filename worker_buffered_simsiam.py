@@ -165,10 +165,13 @@ def main_worker(gpu, ngpus_per_node, args):
     trainfname = args.data.train_filelist
     if args.data.type == 'standard':
         train_dataset = datasets.imagelistdataset.ImageListDataset(
-            trainfname, transforms=augmentation)
+            trainfname,
+            base_dir=args.data.base_dir,
+            transforms=augmentation)
     elif args.data.type == 'sequential':
         train_dataset = datasets.imagelistdataset.KineticsSequentialDataset(
             trainfname,
+            base_dir=args.data.base_dir,
             transforms=augmentation,
             n_seq_samples=args.data.n_seq_samples,
             sampling_method=args.data.seq_sampling)
@@ -183,13 +186,14 @@ def main_worker(gpu, ngpus_per_node, args):
             base_dir=args.data.base_dir,
             num_files=args.data.num_files,
             fn_dtype=args.data.fn_dtype,
+            subsample=args.data.subsample,
             transforms=augmentation)
     else:
         raise NotImplementedError
     print(f'Dataset: {len(train_dataset)}')
 
-    train_n_seq=args.data.n_seq_samples
-    if args.model.buffer_type=='none_noseq':
+    train_n_seq = args.data.n_seq_samples
+    if args.model.buffer_type == 'none_noseq':
         train_n_seq = -1
     if args.environment.distributed:
         shuffle = True if 'shuffle' not in args.data else args.data.shuffle

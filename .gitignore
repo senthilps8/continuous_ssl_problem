@@ -213,3 +213,5 @@ experiments/
 commands.md
 datasets/generate_flickrcc_filelist_with_tags.py
 results/
+datasets/lists/
+datasets/flickrCC/openverse-catalog

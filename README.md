@@ -19,6 +19,8 @@ conda install -y tensorboard=2.9.1 -c conda-forge
 git clone https://github.com/NVIDIA/apex && cd apex && pip install -v --disable-pip-version-check --no-cache-dir ./
 ```
 
+## Preparing the data
+Follow these [instructions](datasets/FLICKR-CC.md) for downloading the Flickr images we used to create the continuous streams of data.
 
 ## Training on Continuous Streams of Data 
 This repository provides code for training models presented in the paper.
@@ -75,7 +77,8 @@ PYTHONPATH=. python main.py data=kinetics optim.epochs=5 optim.lr=0.05 environme
 ### ResNet-18 on Continual Full ImageNet (Section 6)
 
 First download the Full ImageNet dataset (`<fullimnet_folder>`).
-For running the continual learning experiments, we need to use four splits of the Full Imagenet dataset and pass them sequentially to the model. These splits are provided here. Download them to any location (`<fullimnet_splits_folder>`). Download the checkpoint for Simsiam model trained on Flickr200M above (`<simsiam_flickr200m_ckpt>`).
+For running the continual learning experiments, we use the subset provided here ([0123](https://drive.google.com/file/d/1w-rPvbknYscHDVMaldI3rtgHH7ake8Fk/view?usp=sharing), [0312](https://drive.google.com/file/d/1NKUY3NxcKPvnymUN4sM3TJCqXFKSJdNK/view?usp=sharing), [3120](https://drive.google.com/file/d/1rYJu0dcvrqq64jV8hJsZJgvsp3B4tf1Y/view?usp=sharing)). 
+Download them to `datasets/lists`. Download the checkpoint for Simsiam model trained on Flickr200M ([link](https://drive.google.com/file/d/1rYJu0dcvrqq64jV8hJsZJgvsp3B4tf1Y/view?usp=sharing)) (`<simsiam_flickr200m_ckpt>`).
 
 ```bash
 # Choose a split order 
@@ -83,13 +86,13 @@ export order='0123' #Options: 0123, 0312, 3120
 export arch="model/backbone=resnet18" # Option: resnet50
 
 # Single Pass (Conventional)
-export FLAGS='logging.name=r18pt_in21kcont_${order} data.train_filelist=<fullimnet_splits_folder>/filelist_${order}.memmap'
+export FLAGS='logging.name=r18pt_in21kcont_${order} data.train_filelist=datasets/lists/fullimagenet_${order}.memmap'
 
 # Single Pass (Buffer - 4 Updates with 1/4 data)
-export FLAGS='logging.name=r18pt_in21kcont_f4_buff64k_upd4_${order data=memmap_sequential data.train_filelist=<fullimnet_splits_folder>/filelist_${order}_f4.memmap data.num_files=3189346 model=bstream model.num_updates=4 model.buff_siz=65536' 
+export FLAGS='logging.name=r18pt_in21kcont_f4_buff64k_upd4_${order} data.train_filelist=datasets/lists/fullimagenet_${order}.memmap data.subsample=4 model=bstream model.num_updates=4 model.buff_siz=65536' 
 
 # Single Pass (MinRed Buffer - 4 Updates with 1/4 data)
-export FLAGS='logging.name=r18pt_in21kcont_f4_minredbuff64k_upd4_${order} data.train_filelist=<fullimnet_splits_folder>/filelist_${order}_f4.memmap data.num_files=3189346 model=bstream model.num_updates=4 model.buff_siz=65536 model.buffer_type=minred'
+export FLAGS='logging.name=r18pt_in21kcont_f4_minredbuff64k_upd4_${order} data.train_filelist=datasets/lists/fullimagenet_${order}.memmap data.subsample=4 model=bstream model.num_updates=4 model.buff_siz=65536 model.buffer_type=minred'
 
 PYTHONPATH=. python main.py data=memmap_sequential optim.lr_schedule.type=constant optim.lr=0.01 optim.epochs=1 data.base_dir=<fullimnet_folder> environment.data_dir=<logs_folder> environment.ngpu=4 environment.workers=40 logging.save_freq=0.05 model.sync_bn=True  model.pretrained=<simsiam_flickr200m_ckpt> ${arch} ${FLAGS}
 ```
@@ -98,7 +101,6 @@ PYTHONPATH=. python main.py data=memmap_sequential optim.lr_schedule.type=consta
 | Conventional                      |     [x]     |     --      | 11.21 - 11.58 - 11.74 - 11.85 | 4.87 - 3.83 - 4.84  |    5.54 - 7.31    |       5.14        | [0123](https://drive.google.com/file/d/1iieU6_0B4Z9SE39czjF2P7U2vSqY5HOO/view?usp=sharing), [0312](https://drive.google.com/file/d/12QOoZs_QzrV_bSXvCCxJPbjtHzt9w4we/view?usp=sharing), [3120](https://drive.google.com/file/d/1dSYVNWJdIaH5BmNY-k4DLvRqxx5zEcLL/view?usp=sharing) |
 | FIFO Buffer (4 Upd on 1/4 data)   |     [x]     |     64K     | 11.16 - 11.44 - 11.61 - 11.70 | 4.80 - 4.18 - 5.51  |    5.48 - 6.27    |       4.10        | [0123](https://drive.google.com/file/d/1kjsSAVWyxlGJCMYxti2e-UMacbno_Vm2/view?usp=sharing), [0312](https://drive.google.com/file/d/1X2ZviySghpoh8AR0U7OnCWTrncDarKdR/view?usp=sharing), [3120](https://drive.google.com/file/d/1QcP6tF3W6mdoFWKYLQ0mdZh1Z82tdvgZ/view?usp=sharing) |
 | MinRed Buffer (4 Upd on 1/4 data) |     [x]     |     64K     | 11.41 - 11.75 - 11.91 - 11.93 | 1.93 - 2.86 - 4.28  |    1.99 - 2.86    |       1.92        | [0123](https://drive.google.com/file/d/1M4YYNpj61InAq4xVF2CTMMhzdMcpzHSm/view?usp=sharing), [0312](https://drive.google.com/file/d/1M4YYNpj61InAq4xVF2CTMMhzdMcpzHSm/view?usp=sharing), [3120](https://drive.google.com/file/d/1K-0bWRHasRI6XIEXir0YZztTG8AAGC-z/view?usp=sharing) |
-
 
 
 

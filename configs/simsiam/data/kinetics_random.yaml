@@ -1,7 +1,6 @@
 type: 'sequential'
-num_files: 1000000
-fn_dtype: "S120"
-train_filelist: '/grogu/user/spurushw/datasets/kinetics_frames/videos_list/vidlist_numframes.txt'
+base_dir: '/grogu/user/spurushw/datasets/kinetics_frames'
+train_filelist: 'datasets/lists/kinetics_filelist.txt'
 val_filelist: ''
 insize: 224
 name: 'kinetics'
