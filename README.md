@@ -20,7 +20,7 @@ git clone https://github.com/NVIDIA/apex && cd apex && pip install -v --disable-
 ```
 
 ## Preparing the data
-Follow these [instructions](datasets/FLICKR-CC.md) for downloading the Flickr images we used to create the continuous streams of data.
+Follow these [instructions](datasets/DATA_PREPARATION.md) for downloading the Flickr images we used to create the continuous streams of data.
 
 ## Training on Continuous Streams of Data 
 This repository provides code for training models presented in the paper.
