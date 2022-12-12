@@ -62,7 +62,7 @@ python convert_to_mmaps.py --subset ../lists/flickr-20M.tsv.gz --subset_size 200
 # Video Datasets
 Download [Kinetics-400](https://github.com/cvdfoundation/kinetics-dataset) and [Krishna-CAM](https://krsingh.cs.ucdavis.edu/krishna_files/papers/krishnacam/krishnacam.html).
 
-Download the image subsets used in the paper: [kinetics_filelist.txt](https://drive.google.com/file/d/1rYJu0dcvrqq64jV8hJsZJgvsp3B4tf1Y/view?usp=sharing) and [krishnacam_filelist.txt](https://drive.google.com/file/d/1_J3yxrp70bEqF7W7d7qgPrR0qGpJrOOr/view?usp=sharing). Place them under `datasets/lists`. 
+Download the image subsets used in the paper: [kinetics_filelist.txt](https://drive.google.com/file/d/1CotxQNpz1ZAemx6hnmMeuJcc7vfHMArH/view?usp=share_link) and [krishnacam_filelist.txt](https://drive.google.com/file/d/1_J3yxrp70bEqF7W7d7qgPrR0qGpJrOOr/view?usp=sharing). Place them under `datasets/lists`. 
 
 Convert videos into frames at 10 fps using:
 ```
